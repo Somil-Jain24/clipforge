@@ -88,7 +88,12 @@ Engineered with a **strict ₹0 budget architecture**, ClipForge AI runs complet
 - Node.js 18+ and npm
 - FFmpeg (automatically detected if installed system-wide, or bundled via `imageio-ffmpeg`)
 
-### 1. Setup Environment
+### 1. Clone & Setup Environment
+```bash
+git clone https://github.com/Somil-Jain24/clipforge.git
+cd clipforge
+```
+
 **Windows:**
 ```powershell
 .\scripts\setup_dev.bat
@@ -168,15 +173,16 @@ Run the three components in separate terminal windows:
 
 ### 3. Google Colab GPU Worker (`ClipForge_Worker.ipynb`)
 1. Open [Google Colab](https://colab.research.google.com).
-2. Upload `notebooks/ClipForge_Worker.ipynb`.
+2. Open `notebooks/ClipForge_Worker.ipynb` directly from your GitHub repo under the **GitHub** tab (`Somil-Jain24/clipforge`) or upload it.
 3. In the Colab menu, select **Runtime -> Change runtime type -> T4 GPU**.
-4. In Cell 1 (Configuration), set:
-   - `BACKEND_URL`: Public URL of your backend (e.g. deployed on Render or exposed via ngrok/localtunnel).
-   - `WORKER_SECRET`: Secret token matching backend `.env`.
-   - `WORKER_ID`: Unique worker name (e.g. `colab-t4-worker-1`).
+4. In Cell 2 (Configuration), set:
+   - `API_URL`: Public URL of your backend (e.g. deployed on Render or exposed via ngrok/localtunnel/cloudflared).
+   - `GITHUB_REPO_URL`: `https://github.com/Somil-Jain24/clipforge.git` (pre-configured).
+   - `WORKER_NAME`: `colab-gpu-worker-1`.
 5. Execute **Cell 1: Environment Setup & Google Drive Mount**.
 6. Execute **Cell 2: Start Resilient Worker Loop**.
-   - Colab will continuously poll your Supabase backend for queued jobs.
+   - Colab automatically clones `https://github.com/Somil-Jain24/clipforge.git` and runs the worker.
+   - Colab will continuously poll your backend for queued jobs.
    - When finished or disconnected, all clips and chunk checkpoints remain saved in `MyDrive/ClipForge/`.
 
 ---
